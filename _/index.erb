@@ -3,11 +3,11 @@
   <head>
     <meta charset="utf-8" />
     <title>Folyolar</title>
-    <meta content="" name="description" />
-    <meta content="1zinnur9" name="author" />
+    <meta content="<%= description %>" name="description" />
+    <meta content="<%= author %>" name="author" />
     <meta content="yes" name="apple-mobile-web-app-capable" />
-    <link href="http://1zinnur9.github.io/_/default.ico" rel="shortcut icon" />
-    <link href="http://1zinnur9.github.io/_/default-icon.png" rel="apple-touch-icon" />
+    <link href="http://<%= url %>/_/<%= brand %>.ico" rel="shortcut icon" />
+    <link href="http://<%= url %>/_/<%= brand %>-icon.png" rel="apple-touch-icon" />
     <style type="text/css">
       * {
         margin: 0;
@@ -191,47 +191,60 @@
       }
       
     </style>
-    
+    <% unless googleanalytics.empty? %>
+      <script type="text/javascript">// Google Analytics start
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', '<%= googleanalytics %>']);
+        _gaq.push(['_setDomainName', '<%= domain %>']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+        // Google Analytics end
+      </script>
+    <% end %>
   </head>
   <body>
     <div class="site">
       <div id="header">
         <div class="text threequarter">
           <p>
-            
+            <% unless intro.empty? %>
+              <%= intro %>
+            <% else %>
               Folyoların tam ekran görüntülenmesi önerilir (Google Chrome&#39;da
               <strong>F11</strong> tuşu).  Yardım için <strong>h</strong> tuşuna basın veya menüyü
               görüntülemek için fare imlecini kenarlara yaklaştırın.
-            
+            <% end %>
           </p> 
         </div>
         <div class="right" id="logo">
-          <a href="http://" title="http://"><img src="_/default.png" /></a>
+          <a href="http://<%= domain %>" title="http://<%= domain %>"><img src="_/<%= brand %>.png" /></a>
         </div>
       </div>
       <ul id="folios">
         <!--| Hücrelerin doğru sıra ve yerleşimde taranması için dolgu ögeleri kullanıyoruz.
           "column-fill: auto" tüm tarayıcılar tarafından destekleninceye
           kadar geçici çözüm.-->
-        
+        <% items.each do |item| %>
         <li>
-          
-          <a href="denemefi/index.html"><span class="folio"><span>Denemefi</span></span></a>
-          
+          <% if item %>
+          <a href="<%= item[:file] %>"><span class="folio"><span><%= item[:title] %></span></span></a>
+          <% else %>
+          <span class="folio pad"><!--dolgu--><span>&nbsp;</span></span>
+          <% end %>
         </li>
-        
-        <li>
-          
-          <a href="markdown/index.html"><span class="folio"><span>Markdown</span></span></a>
-          
-        </li>
-        
+        <% end %>
       </ul>
       <div id="footer">
         <div class="text dimmed"><p>Bu sitede yayınlanan dokümanlar <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC Attribution-ShareAlike 3.0
           Unported</a> lisansıyla
         lisanslanmıştır --
-        
+        <% unless googleplus.empty? %>
+          <a href="https://plus.google.com/<%= googleplus %>?rel=author"><%= author %></a>
+        <% end %>
           </p> 
         </div>
       </div>
